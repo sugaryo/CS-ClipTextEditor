@@ -131,5 +131,46 @@ namespace ClipTextEditor
             this.txtAfter.Text = s;
         }
         #endregion
+
+        #region LRLR2LLRR
+
+        private void btnLRLR2LLRR_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                this.LRLR2LLRR();
+            }
+            catch (Exception ex)
+            {
+                this.txtAfter.Text = ex.StackTrace;
+                MessageBox.Show(ex.Message);
+            }
+        }
+        private void LRLR2LLRR()
+        {
+            var text = Clipboard.GetText();
+            var each = text.lines();
+
+
+            var sb = new StringBuilder();
+            string ln = "";
+            bool tab = true;
+            foreach (string str in each)
+            {
+                sb.Append(ln);
+                sb.Append(str);
+                ln = tab ? "\t" : "\r\n";
+                tab = !tab;
+            }
+            string s = sb.ToString();
+
+
+            Clipboard.Clear();
+            Clipboard.SetText(s);
+
+            this.txtBefore.Text = text;
+            this.txtAfter.Text = s;
+        }
+        #endregion
     }
 }
